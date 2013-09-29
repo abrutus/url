@@ -2,16 +2,18 @@ package us.brut.brutify
 
 import org.scalatra._
 import scalate.ScalateSupport
+// json libs
+import org.json4s.{DefaultFormats, Formats}
+import org.scalatra.json._
 
-class BrutifyServlet extends BrutifyStack {
-
+class BrutifyServlet extends BrutifyStack with JacksonJsonSupport {
+      protected implicit val jsonFormats: Formats = DefaultFormats.withBigDecimal
   get("/") {
-    <html>
-      <body>
-        <h1>Hello, world!</h1>
-        Say <a href="hello-scalate">hello to Scalate</a>.
-      </body>
-    </html>
+    ssp("/index", "title" -> "brut.us")
   }
-  
+  post("/create") {
+    contentType = formats("json")
+    //(theCode: Int, theMessage : String, theURLObj : ShortenedURL)
+    JsonResponse(200, "OK", ShortenedURL(5,"ab","http://test.com",0, "127.0.0.1",0))
+  }
 }

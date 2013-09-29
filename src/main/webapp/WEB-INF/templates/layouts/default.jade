@@ -5,8 +5,11 @@
 !!!
 html
   head
-    title= title
+    title= "brut.us :: url shortening service"
+    link(rel="stylesheet" type="text/css" href="/_static/style.css")
+    link(rel="shortcut icon" href="/_static/favicon.ico" type="image/x-icon")
+    link(rel="icon" href="/_static/favicon.ico" type="image/x-icon")
   body
-    #content
-      h1= headline
-      != body
+    != body
+    script(defer type="text/javascript" src="//code.jquery.com/jquery-1.9.1.min.js")
+    script(defer type="text/javascript" src="/_static/js/url.js")

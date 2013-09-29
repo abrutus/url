@@ -1,0 +1,6 @@
+exit
+sbt eclipse
+eclipse
+update
+q
+exit
