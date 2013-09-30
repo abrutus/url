@@ -1,3 +1,3 @@
 package us.brut.brutify
-
-case class JsonResponse(code: Int, message : String, urlObj : ShortenedURL)
+import us.brut.brutify.models._
+case class JsonResponse(code: Int, message : String, urlObj : Option[ShortUrl])
