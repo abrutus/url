@@ -8,13 +8,13 @@ $(document).ready(function() {
 		e.preventDefault();
 		$.ajax({
 			url: "/create",
-			data: JSON.stringify({"url" : $("#url").val()}),
+			data: JSON.stringify({"url" : $("#url").val(), "short" : $('#short').val()}),
 			processData: false,
 			type: 'POST',
 			contentType: 'application/json'
 		}).done(function(data) {
 			if(data.code == 200) {
-				$('#url').val(data.urlObj.short);
+				$('#url').val(window.location.protocol + "//" + window.location.host + "/" + data.urlObj.short);
 			}
 			else {
 

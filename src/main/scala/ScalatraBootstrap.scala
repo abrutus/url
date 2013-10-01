@@ -5,7 +5,7 @@ import javax.servlet.ServletContext
 class ScalatraBootstrap extends LifeCycle with DBInit {
   override def init(context: ServletContext) {
     configureDb()
-    context.mount(new BrutifyServlet, "/*")
+    context.mount(new ShortUrlController, "/*")
   }
   override def destroy(context:ServletContext) {
     closeDbConnection()
