@@ -20,7 +20,7 @@ class ShortUrlController extends BrutifyStack with JacksonJsonSupport with DBSes
   // Handle short urls
   get("/:shorturl") {
     val dbObj = Try(ShortUrlDb.findByShort(params("shorturl")))
-    val urlObj = dbObj.getOrElse(new ShortUrl("404"))
+    val urlObj = dbObj.getOrElse(new ShortUrl("", "404"))
     halt(status = 301, headers = Map("Location" -> urlObj.url))
   }
   // Homepage
@@ -46,9 +46,9 @@ class ShortUrlController extends BrutifyStack with JacksonJsonSupport with DBSes
         throw new java.lang.IllegalArgumentException("If you'd enter a valid URL that'd be great")
       // Turn into db model class
       val urlObj = if (shortUrlReq.short.isEmpty())
-        new ShortUrl(shortUrlReq.url)
+        new ShortUrl(request.remoteAddress, shortUrlReq.url)
       else
-        new ShortUrl(shortUrlReq.url, shortUrlReq.short);
+        new ShortUrl(request.remoteAddress, shortUrlReq.url, shortUrlReq.short);
       // Persist, may throw plethora(5) of db Exceptions.
       val dbPersist = ShortUrl.create(urlObj)
       if (dbPersist.isPersisted)
