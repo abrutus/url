@@ -14,7 +14,7 @@ import us.brut.brutify.UrlGenerator
 case class ShortUrl(id: Long, short: String, url: String, var hits: Int, ip: String, created: Long) extends KeyedEntity[Long] with PersistenceStatus {
   def this(ip: String, url: String, short: String) = this(0, short, url, 0, ip,  System.currentTimeMillis / 1000)
   def this(ip: String, url: String) = this(ip, url, UrlGenerator.url())
-  def this(ip: String, url: String, short: String, collision: Boolean) = this(url, UrlGenerator.diff(short))
+  def this(ip: String, url: String, short: String, collision: Boolean) = this(ip, url, UrlGenerator.diff(short))
 
 }
 // Auxiliary object
