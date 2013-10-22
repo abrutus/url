@@ -1,4 +1,6 @@
 # brutify #
+## Build status ##
+[![Build Status](https://travis-ci.org/abrutus/url.png)](https://travis-ci.org/abrutus/url)
 
 ## Build & Run ##
 
