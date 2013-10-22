@@ -8,7 +8,7 @@ class BrutifyServletSpec extends ScalatraSpec { def is =
     "should return status 200"                  ! root200^
                                                 end
 
-  addServlet(classOf[BrutifyServlet], "/*")
+  addServlet(classOf[BrutifyStack], "/*")
 
   def root200 = get("/") {
     status must_== 200
