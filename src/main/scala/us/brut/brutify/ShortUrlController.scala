@@ -23,10 +23,7 @@ class ShortUrlController extends BrutifyStack with JacksonJsonSupport with DBSes
     val urlObj = dbObj.getOrElse(new ShortUrl("", "404"))
     halt(status = 301, headers = Map("Location" -> urlObj.url))
   }
-  // Homepage
-  get("/") {
-    ssp("/index", "title" -> "brut.us")
-  }
+  
   // Homepage that lets you specify which shorturl
   get("/custom") {
     ssp("/custom", "title" -> "brut.us")
@@ -71,5 +68,9 @@ class ShortUrlController extends BrutifyStack with JacksonJsonSupport with DBSes
   }
   get("/404") {
     halt(404, <h1>Not Found! <br/><img src="/_static/404.gif"/></h1>)
+  }
+  // Homepage
+  get("/") {
+    ssp("/index", "title" -> "brut.us")
   }
 }
