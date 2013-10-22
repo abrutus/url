@@ -11,6 +11,6 @@ class BrutifyServletSpec extends ScalatraSpec { def is =
   addServlet(classOf[BrutifyStack], "/*")
 
   def root200 = get("/") {
-    status must_== 404
+    status must_== 200
   }
 }
