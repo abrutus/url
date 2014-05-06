@@ -23,7 +23,12 @@ class ShortUrlController extends BrutifyStack with JacksonJsonSupport with DBSes
     val urlObj = dbObj.getOrElse(new ShortUrl("", "404"))
     halt(status = 301, headers = Map("Location" -> urlObj.url))
   }
-  
+  // Handle (shorturl).jpg automatically
+  get("""^\/(.*)\.jpg""".r) {
+    val shortUrl = multiParams("captures").head
+    redirect("/" + shortUrl)
+  }
+
   // Homepage that lets you specify which shorturl
   get("/custom") {
     ssp("/custom", "title" -> "brut.us")
@@ -31,7 +36,7 @@ class ShortUrlController extends BrutifyStack with JacksonJsonSupport with DBSes
   // JSON endpoint for creating short urls
   post("/create") {
     contentType = formats("json")
-    // Parse Incoming JSON as a ShortenedURLPost 
+    // Parse Incoming JSON as a ShortenedURLPost
     try {
       // may throw package$MappingException
       val shortUrlReq: ShortUrlForm = parsedBody.extract[ShortUrlForm]
