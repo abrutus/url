@@ -24,9 +24,46 @@ class ShortUrlController extends BrutifyStack with JacksonJsonSupport with DBSes
     halt(status = 301, headers = Map("Location" -> urlObj.url))
   }
   // Handle (shorturl).jpg automatically
-  get("""^\/(.*)\.jpg""".r) {
+  get("""^\/(.*)\.(jpg|jpeg|gif|png)""".r) {
     val shortUrl = multiParams("captures").head
     redirect("/" + shortUrl)
+  }
+  post("/update") {
+    contentType = formats("json")
+    try {
+      // may throw package$MappingException
+      val shortUrlReq: ShortUrlForm = parsedBody.extract[ShortUrlForm]
+      // simple check for valid args
+      if (shortUrlReq.url.length < 6 || shortUrlReq.url.startsWith("http://" + DOMAIN) || shortUrlReq.url.startsWith("http://www." + DOMAIN)) {
+        throw new java.lang.IllegalArgumentException("Url is short already")
+      }
+      if(!shortUrlReq.url.contains("://"))
+        throw new java.lang.IllegalArgumentException("If you'd enter a valid URL that'd be great")
+        val dbObj = Try(ShortUrlDb.findByShort(shortUrlReq.short))
+        val urlObj = dbObj.getOrElse(new ShortUrl("", "404"))
+
+        if(urlObj.short == "404") {
+          halt(status = 301, headers = Map("Location" -> urlObj.url))
+        }
+        val edited = new ShortUrl(urlObj.id, urlObj.short, shortUrlReq.url, urlObj.hits, urlObj.ip, urlObj.created)
+
+
+
+      // Persist, may throw plethora(5) of db Exceptions.
+         ShortUrl.update(edited)
+        JsonResponse(500, "Looks Like it worked", None)
+    } catch {
+      case ex: org.json4s.package$MappingException => JsonResponse(500, "Error parsing JSON payload", None)
+      case ex: java.lang.IllegalArgumentException => JsonResponse(500, ex.getMessage, None)
+    }
+    //
+    val dbObj = Try(ShortUrlDb.findByShort(params("shorturl")))
+    val urlObj = dbObj.getOrElse(new ShortUrl("", "404"))
+    if(urlObj.short == "404") {
+      halt(status = 301, headers = Map("Location" -> urlObj.url))
+    }
+    val url : String = "http://" + DOMAIN + "/" + urlObj.short
+    ssp("/qr", "url" -> url,  "title" -> "brut.us")
   }
   get("/qr/:shorturl") {
     val dbObj = Try(ShortUrlDb.findByShort(params("shorturl")))

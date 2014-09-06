@@ -19,6 +19,21 @@ case class ShortUrl(id: Long, short: String, url: String, var hits: Int, ip: Str
 }
 // Auxiliary object
 object ShortUrl {
+  def update(shortUrlObj: ShortUrl): ShortUrl = {
+    try {
+      inTransaction {
+        val result = ShortUrlDb.shorturls.update(shortUrlObj)
+        shortUrlObj
+      }
+    } catch {
+      case e: java.lang.RuntimeException =>
+        e.getCause match {
+          // If requesting or generated shorturl already taken
+          case c: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException => return ShortUrl.create(new ShortUrl(shortUrlObj.ip, shortUrlObj.url, shortUrlObj.short, true))
+          case _ => throw e
+        }
+    }
+  }
   def create(shortUrlObj: ShortUrl): ShortUrl = {
     try {
       inTransaction {
