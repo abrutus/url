@@ -1,0 +1,9 @@
+<%@ val url: String %>
+<div class="input_wrapper">
+    <div id="qrcode"></div>
+    <script type="text/javascript" src="/_static/js/qrcode.js">
+    </script>
+    <script type="text/javascript">
+    new QRCode(document.getElementById("qrcode"), "<%= url %>");
+    </script>
+</div>

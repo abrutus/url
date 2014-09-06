@@ -28,7 +28,15 @@ class ShortUrlController extends BrutifyStack with JacksonJsonSupport with DBSes
     val shortUrl = multiParams("captures").head
     redirect("/" + shortUrl)
   }
-
+  get("/qr/:shorturl") {
+    val dbObj = Try(ShortUrlDb.findByShort(params("shorturl")))
+    val urlObj = dbObj.getOrElse(new ShortUrl("", "404"))
+    if(urlObj.short == "404") {
+      halt(status = 301, headers = Map("Location" -> urlObj.url))
+    }
+    val url : String = "http://" + DOMAIN + "/" + urlObj.short
+    ssp("/qr", "url" -> url,  "title" -> "brut.us")
+  }
   // Homepage that lets you specify which shorturl
   get("/custom") {
     ssp("/custom", "title" -> "brut.us")
