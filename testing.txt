@@ -1,1 +1,0 @@
-DefaultEndpointsProtocol=https;AccountName=exposedasfuq;AccountKey=oEvgh+vRd1HkFp0T3gy35xJirexRfjjrg7b+ur4T5Ike2pdtppw4EsF47C5XRnLF1g5fv+kXM+IJJu7M6jZe0g==
