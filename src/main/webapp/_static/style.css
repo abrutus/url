@@ -2,7 +2,7 @@
   font-family: 'Advent Pro';
   font-style: normal;
   font-weight: 700;
-  src: local('Advent Pro Bold'), local('AdventPro-Bold'), url(http://themes.googleusercontent.com/static/fonts/adventpro/v1/M4I6QiICt-ey_wZTpR2gK3bFhgvWbfSbdVg11QabG8w.woff) format('woff');
+  src: local('Advent Pro Bold'), local('AdventPro-Bold'), url(https://themes.googleusercontent.com/static/fonts/adventpro/v1/M4I6QiICt-ey_wZTpR2gK3bFhgvWbfSbdVg11QabG8w.woff) format('woff');
 }
 
 html,body{
