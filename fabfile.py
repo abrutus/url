@@ -4,7 +4,7 @@ from fabric.context_managers import settings
 
 env.hosts = ['root@brut.us']
 def copy():
-	local('./sbt package')
+	local('sbt package')
 	with settings(warn_only=True):
 		run('rm /root/root.war')
 	put('target/scala-2.10/brutify_2.10-0.1.0-SNAPSHOT.war', '/root/root.war')
